@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customers List</title>
+    <style type="text/css">
+        TABLE {
+            width: 1000px;
+            border-collapse: collapse;
+        }
+        TD, TH {
+            padding: 3px;
+            border: 1px solid black;
+        }
+        TH {
+            background: #b0e0e6;
+        }
+  </style>
+</head>
+<body>
+    <h1>Customers List</h1>
+    <form method="get" action="">
+        <input type="text" name="q" placeholder="Search by first or last name" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th><a href="?sort_by=name">First Name</a></th>
+                <th><a href="?sort_by=surname">Last Name</a></th>
+                <th><a href="?sort_by=age">Age</a></th>
+                <th><a href="?sort_by=date_birth">Date of Birth</a></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.surname }}</td>
+                <td>{{ customer.age }}</td>
+                <td>{{ customer.date_birth }}</td>
+                <td>
+                    <a href="{% url 'customer_detail' customer.pk %}">View</a>
+                    <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'customer_add' %}">Add Customer</a>
+    <a href="{% url 'export_customers' %}">Export to XLSX</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Detail</title>
+</head>
+<body>
+    <h1>Customer Detail</h1>
+    <h2>{{ customer.name }} {{ customer.surname }}</h2>
+    <p>Age: {{ customer.age }}</p>
+    <p>Date of birth: {{ customer.date_birth }}</p>
+    <img src="{{ customer.photo.url }}" alt="Customer photo" style="max-height:300px">
+    <a href="{% url 'customers_list' %}">Back to Customers List</a>
+</body>
+</html>
