@@ -3,51 +3,166 @@
 <head>
     <title>Customers List</title>
     <style type="text/css">
-        TABLE {
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+
+        button[type="submit"],
+        button.clear-button {
+            padding: 5px 10px;
+        }
+
+        table {
             width: 1000px;
             border-collapse: collapse;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
-        TD, TH {
-            padding: 3px;
+
+        th, td {
+            padding: 8px;
             border: 1px solid black;
         }
-        TH {
+
+        th {
             background: #b0e0e6;
         }
-  </style>
+
+        td a {
+            text-decoration: none;
+            margin-right: 5px;
+        }
+
+        .actions {
+            text-align: center;
+        }
+
+        .link-button {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            color: black;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .link-button.add-customer,
+        .link-button.export-xlsx {
+            background-color: #b0e0e6;
+        }
+
+        .pagination {
+            text-align: right;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-left: 5px;
+            text-decoration: none;
+            background-color: #f0f0f0;
+            color: black;
+        }
+
+        .pagination .current-page {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-left: 5px;
+            background-color: #b0e0e6;
+            color: black;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 40px;
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Customers List</h1>
-    <form method="get" action="">
-        <input type="text" name="q" placeholder="Search by first or last name" value="{{ request.GET.q }}">
-        <button type="submit">Search</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th><a href="?sort_by=name">First Name</a></th>
-                <th><a href="?sort_by=surname">Last Name</a></th>
-                <th><a href="?sort_by=age">Age</a></th>
-                <th><a href="?sort_by=date_birth">Date of Birth</a></th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for customer in customers %}
-            <tr>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.surname }}</td>
-                <td>{{ customer.age }}</td>
-                <td>{{ customer.date_birth }}</td>
-                <td>
-                    <a href="{% url 'customer_detail' customer.pk %}">View</a>
-                    <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'customer_add' %}">Add Customer</a>
-    <a href="{% url 'export_customers' %}">Export to XLSX</a>
+    <div class="container">
+        <h1>Customers List</h1>
+        <form method="get" action="" class="search-form">
+            <input type="text" name="q" placeholder="Search by first or last name" value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+            <a href="?q=" class="link-button clear-button">Clear</a>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th><a href="?sort_by=name">First Name</a></th>
+                    <th><a href="?sort_by=surname">Last Name</a></th>
+                    <th><a href="?sort_by=age">Age</a></th>
+                    <th><a href="?sort_by=date_birth">Date of Birth</a></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.surname }}</td>
+                    <td>{{ customer.age }}</td>
+                    <td>{{ customer.date_birth }}</td>
+                    <td class="actions">
+                        <a href="{% url 'customer_detail' customer.pk %}" class="link-button">View</a>
+                        <a href="{% url 'customer_delete' customer.pk %}" class="link-button">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="button-container">
+            <div class="link-button add-customer">
+                <a href="{% url 'customer_add' %}">+ Add Customer</a>
+            </div>
+            <div class="link-button export-xlsx">
+                <a href="{% url 'export_customers' %}">Export all to XLSX</a>
+            </div>
+        </div>
+        <div class="pagination-container">
+            <div class="pagination">
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a href="?sort_by={{ request.GET.sort_by }}&page=1">First</a>
+                        <a href="?sort_by={{ request.GET.sort_by }}&page={{ page_obj.previous_page_number }}">< Prev</a>
+                    {% endif %}
+
+                    <span class="current-page">{{ page_obj.number }}</span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?sort_by={{ request.GET.sort_by }}&page={{ page_obj.next_page_number }}">Next ></a>
+                        <a href="?sort_by={{ request.GET.sort_by }}&page={{ page_obj.paginator.num_pages }}">Last</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -3,13 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer Detail</title>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1, h2, p {
+            text-align: center;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            max-height: 300px;
+        }
+
+        .back-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .link-button {
+            display: inline-block;
+            text-align: center;
+            background-color: #b0e0e6;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+            min-width: 80px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-    <h1>Customer Detail</h1>
-    <h2>{{ customer.name }} {{ customer.surname }}</h2>
-    <p>Age: {{ customer.age }}</p>
-    <p>Date of birth: {{ customer.date_birth }}</p>
-    <img src="{{ customer.photo.url }}" alt="Customer photo" style="max-height:300px">
-    <a href="{% url 'customers_list' %}">Back to Customers List</a>
+    <div class="container">
+        <h1>Customer Detail</h1>
+        <h2>{{ customer.name }} {{ customer.surname }}</h2>
+        <p>Age: {{ customer.age }}</p>
+        <p>Date of birth: {{ customer.date_birth }}</p>
+        <img src="{{ customer.photo.url }}" alt="Customer photo">
+        <div class="back-button-container">
+            <a class="link-button" href="{{ request.META.HTTP_REFERER }}">< Back</a>
+        </div>
+    </div>
 </body>
 </html>

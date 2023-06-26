@@ -14,7 +14,7 @@ class CustomersListView(ListView):
     template_name = 'customersdb/customers_list.html'
     context_object_name = 'customers'
     ordering = 'pk'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()

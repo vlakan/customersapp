@@ -3,14 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Customer</title>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            width: max-content;
+        }
+
+        form {
+            text-align: left;
+            margin-bottom: 20px;
+            margin: 0 auto;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .link-button {
+            display: inline-block;
+            margin-top: 10px;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+            margin-left: 5px;
+        }
+
+        .link-button.back-button {
+            background-color: #b0e0e6;
+        }
+
+        .add-button {
+            display: inline-block;
+            margin-top: 10px;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add Customer</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Add">
-    </form>
-    <a href="{% url 'customers_list' %}">Back</a>
+    <div class="container">
+        <h1>Add Customer</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-container">
+                <input type="submit" class="add-button" value="Add">
+                <div class="link-button back-button">
+                    <a href="{{ request.META.HTTP_REFERER }}">< Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

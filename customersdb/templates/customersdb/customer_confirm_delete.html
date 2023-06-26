@@ -3,14 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Confirm Delete</title>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1, p {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .link-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .link-button.back-button {
+            background-color: #b0e0e6;
+        }
+    </style>
 </head>
 <body>
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete {{ customer.name }} {{ customer.surname }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete" >
-    </form>
-    <a href="{% url 'customers_list' %}">Cancel</a>
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <p>Are you sure you want to delete {{ customer.name }} {{ customer.surname }}?</p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" value="Delete">
+        </form>
+        <div class="link-button back-button">
+            <a href="{{ request.META.HTTP_REFERER }}">< Cancel</a>
+        </div>
+    </div>
 </body>
 </html>
